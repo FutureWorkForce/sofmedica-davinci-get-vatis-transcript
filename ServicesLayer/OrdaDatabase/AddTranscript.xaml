@@ -1,14 +1,14 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="AddTranscript" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="AddTranscript" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_databaseConnection" Type="InArgument(ui:DatabaseConnection)" />
     <x:Property Name="in_transcript" Type="InArgument(x:String)" />
-    <x:Property Name="in_startTime" Type="InArgument(x:String)" />
-    <x:Property Name="in_endTime" Type="InArgument(x:String)" />
+    <x:Property Name="in_startTime" Type="InArgument(s:DateTime)" />
+    <x:Property Name="in_endTime" Type="InArgument(s:DateTime)" />
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1253.6,562.4</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>869.6,512</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>AddTranscript_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -91,6 +91,10 @@
       <AssemblyReference>System.Private.Xml</AssemblyReference>
       <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
       <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>System.CodeDom</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="AddTranscript" sap:VirtualizedContainerService.HintSize="449.6,334.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
@@ -100,13 +104,13 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="387.2,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Start AddTranscript&quot;]" />
-    <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Run command - insert transcript record" ExistingDbConnection="[in_databaseConnection]" sap:VirtualizedContainerService.HintSize="387.2,89.6" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_1" Sql="INSERT INTO transcript(start_time, end_time, content) VALUES(@startTime, @endTime, @transcript)">
+    <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Run command - insert transcript record" ExistingDbConnection="[in_databaseConnection]" sap:VirtualizedContainerService.HintSize="387.2,89.6" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_1" Sql="INSERT INTO nota(start_time, end_time, continut) VALUES(@startTime, @endTime, @transcript)">
       <ui:ExecuteNonQuery.Parameters>
-        <InArgument x:TypeArguments="x:String" x:Key="startTime">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_startTime" />
+        <InArgument x:TypeArguments="s:DateTime" x:Key="startTime">
+          <VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="in_startTime" />
         </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="endTime">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_endTime" />
+        <InArgument x:TypeArguments="s:DateTime" x:Key="endTime">
+          <VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="in_endTime" />
         </InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="transcript">
           <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_transcript" />

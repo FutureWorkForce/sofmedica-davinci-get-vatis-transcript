@@ -2,12 +2,12 @@
     "Settings": [
         {
             "Name": "OrchestratorQueueName",
-            "Value": "PlasareComanda_XentryOrders",
+            "Value": "AudioTranscriptsTransactions",
             "Description": "Orchestrator queue Name. The value must match with the queue name defined on Orchestrator."
         },
         {
             "Name": "OrchestratorQueueFolder",
-            "Value": "PlasareComanda/PlasareComandaXentry_Performer",
+            "Value": "Demos/Sofmedica Davinci",
             "Description": "Folder name. The value must match a folder defined in Orchestrator and queue specified as OrchestratorQueueName should be created in this folder. For classic folders leave the value field empty."
         },
         {
@@ -17,10 +17,21 @@
         },
         {
             "Name": "vatisToken",
-            "Value": "VatisToken",
+            "Value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJWYXRpcyBUZWNoIiwiaWF0IjoxNjY3NTAwNDYzLCJzdWIiOiJsaXZpdS5vbmV0QGdtYWlsLmNvbSIsImF1dGgiOiJBUElfS0VZIiwiZXhwIjo0ODIzMTc0MDYzfQ.ycPustwDuSYNap4wkdSUjsaD2T0Rcq-CQm5nbgcjG7NjFkqHwe3J0o26fmn1PSIh0HTMb1PRFh4tlo5C-OplyQ",
             "Description": "Bearer token used to authorize Vatis requests"
+        },
+        {
+            "Name": "vatisBaseUrl",
+            "Value": "https://vatis.tech"
+        },
+        {
+            "Name": "transcribeEndPoint",
+            "Value": "/api/v1/files/transcribe/file"
+        },
+        {
+            "Name": "clientSecret",
+            "Value": "Azure_ClientSecret"
         }
-        
     ],
     "Constants": [
         {
@@ -81,29 +92,41 @@
     ],
     "Assets": [
         {
-            "Name": "vatisBaseUrl",
-            "Asset": "GetVatisTranscript_vatisBaseUrl",
-            "OrchestratorAssetFolder": "GetVatisTranscript",
-            "Description (Assets will always overwrite other config)": "Url used to access Xentry Portal"
-        },
-        {
-            "Name": "transcribeEndPoint",
-            "Asset": "GetVatisTranscript_vatisBaseUrl",
-            "OrchestratorAssetFolder": "GetVatisTranscript",
-            "Description (Assets will always overwrite other config)": "Url used to access Xentry Portal"
-        },
-        {
             "Name": "ordaConnectionString",
-            "Asset": "GetVatisTranscript_ordaConnectionString",
-            "OrchestratorAssetFolder": "GetVatisTranscript",
-            "Description (Assets will always overwrite other config)": "Url used to access Xentry Portal"
+            "Asset": "databaseConnectionString",
+            "OrchestratorAssetFolder": "Demos/Sofmedica Davinci",
+            "Description (Assets will always overwrite other config)": ""
         },
         {
             "Name": "dbProvider",
-            "Asset": "GetVatisTranscript_dbProvider",
-            "OrchestratorAssetFolder": "PlasareComanda/PlasareComandaXentry_Performer",
-            "Description (Assets will always overwrite other config)": "Url used to access Xentry Portal"
+            "Asset": "DbProviderName",
+            "OrchestratorAssetFolder": "Demos/Sofmedica Davinci",
+            "Description (Assets will always overwrite other config)": ""
+        },
+        {
+            "Name": "resourceGroup",
+            "Asset": "Azure_resourceGroupName",
+            "OrchestratorAssetFolder": "Demos/Sofmedica Davinci"
+        },
+        {
+            "Name": "storageAccount",
+            "Asset": "Azure_StorageAccountName",
+            "OrchestratorAssetFolder": "Demos/Sofmedica Davinci"
+        },
+        {
+            "Name": "storageContainer",
+            "Asset": "Azure_StorageContainerName",
+            "OrchestratorAssetFolder": "Demos/Sofmedica Davinci"
+        },
+        {
+            "Name": "subscriptionId",
+            "Asset": "Azure_SubscriptionId",
+            "OrchestratorAssetFolder": "Demos/Sofmedica Davinci"
+        },
+        {
+            "Name": "tenantId",
+            "Asset": "Azure_TenantId",
+            "OrchestratorAssetFolder": "Demos/Sofmedica Davinci"
         }
-    
     ]
 }

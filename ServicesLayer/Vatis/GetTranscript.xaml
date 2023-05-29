@@ -7,7 +7,7 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1253.6,1132</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1253.6,1322.4</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>GetTranscript_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -93,9 +93,10 @@
       <AssemblyReference>System.Net.Requests</AssemblyReference>
       <AssemblyReference>System.Net.ServicePoint</AssemblyReference>
       <AssemblyReference>System.Net.WebHeaderCollection</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="GetTranscript" sap:VirtualizedContainerService.HintSize="499.2,1067.2" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="GetTranscript" sap:VirtualizedContainerService.HintSize="547.2,1257.6" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="ss:SecureString" Name="vatisToken" />
       <Variable x:TypeArguments="x:String" Name="vatisTokenString" />
@@ -105,19 +106,30 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="436.8,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Start GetTranscript&quot;]" />
-    <ui:GetRobotCredential TimeoutMS="{x:Null}" Username="{x:Null}" AssetName="[in_Config(&quot;vatisToken&quot;).ToString()]" CacheStrategy="None" DisplayName="Get Credential vatisToken" FolderPath="[in_Config(&quot;OrchestratorFolderPath&quot;).ToString()]" sap:VirtualizedContainerService.HintSize="436.8,143.2" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[vatisToken]" />
-    <Assign DisplayName="Assign vatisTokenString" sap:VirtualizedContainerService.HintSize="436.8,81.6" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484.8,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Start GetTranscript&quot;]" />
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="484.8,333.6" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="449.6,255.2" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:GetRobotCredential TimeoutMS="{x:Null}" Username="{x:Null}" AssetName="[in_Config(&quot;vatisToken&quot;).ToString()]" CacheStrategy="None" DisplayName="Get Credential vatisToken" FolderPath="[in_Config(&quot;OrchestratorFolderPath&quot;).ToString()]" sap:VirtualizedContainerService.HintSize="387.2,143.2" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[vatisToken]" />
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <Assign DisplayName="Assign vatisTokenString" sap:VirtualizedContainerService.HintSize="484.8,81.6" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[vatisTokenString]</OutArgument>
       </Assign.To>
       <Assign.Value>
-        <InArgument x:TypeArguments="x:String">[New NetworkCredential(String.Empty, vatisToken).Password]</InArgument>
+        <InArgument x:TypeArguments="x:String">[in_Config("vatisToken").ToString()]</InArgument>
       </Assign.Value>
     </Assign>
-    <TryCatch DisplayName="Try Catch get vatis transcript" sap:VirtualizedContainerService.HintSize="436.8,396" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <TryCatch DisplayName="Try Catch get vatis transcript" sap:VirtualizedContainerService.HintSize="484.8,396" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
-        <ui:InvokeCode ContinueOnError="{x:Null}" Code="var options = new RestClientOptions(in_Config[&quot;vatisBaseUrl&quot;].ToString())&#xD;&#xA;{&#xD;&#xA;  MaxTimeout = -1,&#xD;&#xA;};&#xD;&#xA;var client = new RestClient(options);&#xD;&#xA;var request = new RestRequest(in_Config[&quot;transcribeEndPoint&quot;].ToString(), Method.Post);&#xD;&#xA;var bearerToken = string.Format(&quot;Bearer {0}&quot;, in_vatisToken);&#xD;&#xA;request.AddHeader(&quot;Authorization&quot;, bearerToken);&#xD;&#xA;request.AlwaysMultipartFormData = true;&#xD;&#xA;request.AddFile(&quot;file&quot;, in_file);&#xD;&#xA;request.AddParameter(&quot;language&quot;, &quot;ro_RO&quot;);&#xD;&#xA;RestResponse response =  client.Execute(request);&#xD;&#xA;Console.WriteLine(response.Content);" DisplayName="Invoke Code get vatis transcript" sap:VirtualizedContainerService.HintSize="333.6,164.8" sap2010:WorkflowViewState.IdRef="InvokeCode_1" Language="CSharp">
+        <ui:InvokeCode ContinueOnError="{x:Null}" Code="var options = new RestClientOptions(in_Config[&quot;vatisBaseUrl&quot;].ToString())&#xA;{&#xA;  MaxTimeout = -1,&#xA;};&#xA;var client = new RestClient(options);&#xA;var request = new RestRequest(in_Config[&quot;transcribeEndPoint&quot;].ToString(), Method.Post);&#xA;var bearerToken = string.Format(&quot;Bearer {0}&quot;, in_vatisToken);&#xA;request.AddHeader(&quot;Authorization&quot;, bearerToken);&#xA;request.AlwaysMultipartFormData = true;&#xA;request.AddFile(&quot;file&quot;, in_file);&#xA;request.AddParameter(&quot;language&quot;, &quot;ro_RO&quot;);&#xA;RestResponse response =  client.Execute(request);&#xA;Console.WriteLine(response.Content);" DisplayName="Invoke Code get vatis transcript" sap:VirtualizedContainerService.HintSize="333.6,164.8" sap2010:WorkflowViewState.IdRef="InvokeCode_1" Language="CSharp">
           <ui:InvokeCode.Arguments>
             <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
             <InArgument x:TypeArguments="x:String" x:Key="in_file">[in_file]</InArgument>
@@ -158,7 +170,7 @@
         </Catch>
       </TryCatch.Catches>
     </TryCatch>
-    <Assign DisplayName="Assign vatisTokenString - to reduce variable scope" sap:VirtualizedContainerService.HintSize="436.8,81.6" sap2010:WorkflowViewState.IdRef="Assign_2">
+    <Assign DisplayName="Assign vatisTokenString - to reduce variable scope" sap:VirtualizedContainerService.HintSize="484.8,81.6" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[vatisTokenString]</OutArgument>
       </Assign.To>
