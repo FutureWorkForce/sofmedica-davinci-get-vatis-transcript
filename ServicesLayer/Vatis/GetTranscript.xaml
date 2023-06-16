@@ -7,7 +7,7 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1253.6,1322.4</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>869.6,1322.4</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>GetTranscript_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -41,6 +41,7 @@
       <x:String>RestSharp</x:String>
       <x:String>System.Security</x:String>
       <x:String>System.Net</x:String>
+      <x:String>Newtonsoft.Json</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -94,6 +95,7 @@
       <AssemblyReference>System.Net.ServicePoint</AssemblyReference>
       <AssemblyReference>System.Net.WebHeaderCollection</AssemblyReference>
       <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="GetTranscript" sap:VirtualizedContainerService.HintSize="547.2,1257.6" sap2010:WorkflowViewState.IdRef="Sequence_1">
@@ -129,7 +131,7 @@
     </Assign>
     <TryCatch DisplayName="Try Catch get vatis transcript" sap:VirtualizedContainerService.HintSize="484.8,396" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
-        <ui:InvokeCode ContinueOnError="{x:Null}" Code="var options = new RestClientOptions(in_Config[&quot;vatisBaseUrl&quot;].ToString())&#xA;{&#xA;  MaxTimeout = -1,&#xA;};&#xA;var client = new RestClient(options);&#xA;var request = new RestRequest(in_Config[&quot;transcribeEndPoint&quot;].ToString(), Method.Post);&#xA;var bearerToken = string.Format(&quot;Bearer {0}&quot;, in_vatisToken);&#xA;request.AddHeader(&quot;Authorization&quot;, bearerToken);&#xA;request.AlwaysMultipartFormData = true;&#xA;request.AddFile(&quot;file&quot;, in_file);&#xA;request.AddParameter(&quot;language&quot;, &quot;ro_RO&quot;);&#xA;RestResponse response =  client.Execute(request);&#xA;Console.WriteLine(response.Content);" DisplayName="Invoke Code get vatis transcript" sap:VirtualizedContainerService.HintSize="333.6,164.8" sap2010:WorkflowViewState.IdRef="InvokeCode_1" Language="CSharp">
+        <ui:InvokeCode ContinueOnError="{x:Null}" Code="//Define client  options&#xD;&#xA;var options = new RestClientOptions(in_Config[&quot;vatisBaseUrl&quot;].ToString())&#xD;&#xA;{&#xD;&#xA;  MaxTimeout = -1,&#xD;&#xA;};&#xD;&#xA;RestClient client = new RestClient(options);&#xD;&#xA;&#xD;&#xA;////Submit file for transcription&#xD;&#xA;RestRequest transcribeRequest = new RestRequest(in_Config[&quot;transcribeEndPoint&quot;].ToString(),&#xD;&#xA;&#x9;Method.Post);&#xD;&#xA;string  bearerToken = string.Format(&quot;Bearer {0}&quot;, in_vatisToken);&#xD;&#xA;transcribeRequest.AddHeader(&quot;Authorization&quot;, bearerToken);&#xD;&#xA;transcribeRequest.AlwaysMultipartFormData = true;&#xD;&#xA;transcribeRequest.AddFile(&quot;file&quot;, in_file);&#xD;&#xA;transcribeRequest.AddParameter(&quot;language&quot;, &quot;ro_RO&quot;);&#xD;&#xA;RestResponse transcribeResponse =  client.Execute(transcribeRequest);&#xD;&#xA;Dictionary&lt;string, string&gt; transcribeResponseContent = JsonConvert.DeserializeObject&lt;Dictionary&lt;string, string&gt;&gt;(&#xD;&#xA;&#x9;transcribeResponse.Content);&#xD;&#xA;&#xD;&#xA;//Get transcript text&#xD;&#xA;RestRequest getTranscriptionRequest = new RestRequest(&#xD;&#xA;&#x9;String.Format(in_Config[&quot;getTransacriptionEndPoint&quot;].ToString(),&#xD;&#xA;&#x9;transcribeResponseContent[&quot;uid&quot;]),&#xD;&#xA;&#x9;Method.Post);&#xD;&#xA;getTranscriptionRequest.AddHeader(&quot;Authorization&quot;, bearerToken);&#xD;&#xA;RestResponse getTranscriptionResponse ;&#xD;&#xA;int currentAttempt = 0;&#xD;&#xA;&#xD;&#xA;//While response code is not successful try to get transcription &#xD;&#xA;//Max no. of attempts = 10&#xD;&#xA;do{&#xD;&#xA;System.Threading.Thread.Sleep(3000);&#xD;&#xA;getTranscriptionResponse = client.Execute(getTranscriptionRequest);&#xD;&#xA;Console.WriteLine(getTranscriptionResponse.Content);&#xD;&#xA;currentAttempt += 1; &#xD;&#xA;&#xD;&#xA;Console.WriteLine(Convert.ToInt32(getTranscriptionResponse.StatusCode).ToString());&#xD;&#xA;}&#xD;&#xA;while(Convert.ToInt32(getTranscriptionResponse.StatusCode) != 200 &amp;&amp; currentAttempt &lt;= 10 );&#xD;&#xA;&#xD;&#xA;Dictionary&lt;string, object&gt; transcriptionResponse = JsonConvert.DeserializeObject&lt;Dictionary&lt;string, object&gt;&gt;(getTranscriptionResponse.Content);&#xD;&#xA;&#xD;&#xA;//Get transcription text from list of words&#xD;&#xA;if(transcriptionResponse[&quot;status&quot;].ToString().Equals(&quot;TRANSCRIPTED&quot;)){&#xD;&#xA;&#x9; List&lt;string&gt; words = JsonConvert.DeserializeObject&lt;Dictionary&lt;string, List&lt;Dictionary&lt;string, string&gt;&gt;&gt;&gt;(&#xD;&#xA;&#x9;&#x9;JsonConvert.DeserializeObject(transcriptionResponse[&quot;data&quot;].ToString()).ToString())[&quot;words&quot;].Select(&#xD;&#xA;&#x9;&#x9;x =&gt; x[&quot;word&quot;]).ToList();&#xD;&#xA;&#xD;&#xA;&#x9;out_transcript = string.Join(&quot; &quot;, words);&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA; out_transcript = &quot;&quot;;&#x9;&#xD;&#xA;}" DisplayName="Invoke Code get vatis transcript" sap:VirtualizedContainerService.HintSize="333.6,164.8" sap2010:WorkflowViewState.IdRef="InvokeCode_1" Language="CSharp">
           <ui:InvokeCode.Arguments>
             <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
             <InArgument x:TypeArguments="x:String" x:Key="in_file">[in_file]</InArgument>

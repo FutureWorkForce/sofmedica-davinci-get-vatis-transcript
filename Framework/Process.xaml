@@ -132,15 +132,9 @@
     <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="423.2,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Process&quot;]" />
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ServicesLayer\Azure\GetAudioFile.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="423.2,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="ServicesLayer\Azure\GetAudioFile.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
-          <VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_blobPath">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_TransactionItem.Reference" />
-        </InArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="out_localFilePath">
-          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="blobFilePath" />
-        </OutArgument>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_blobPath">[in_TransactionItem.Reference]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_localFilePath">[blobFilePath]</OutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ServicesLayer\Vatis\GetTranscript.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="423.2,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="ServicesLayer\Vatis\GetTranscript.xaml">
@@ -150,7 +144,7 @@
         <OutArgument x:TypeArguments="x:String" x:Key="out_transacript">[transcript]</OutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="423.2,132" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+    <ui:MultipleAssign DisplayName="Multiple Assign startTime, startTime" sap:VirtualizedContainerService.HintSize="423.2,132" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
@@ -178,18 +172,10 @@ Nothing)]</InArgument>
     </ui:MultipleAssign>
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ServicesLayer\OrdaDatabase\AddTranscript.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="423.2,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="ServicesLayer\OrdaDatabase\AddTranscript.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="ui:DatabaseConnection" x:Key="in_databaseConnection">
-          <VisualBasicValue x:TypeArguments="ui:DatabaseConnection" ExpressionText="in_databaseConnection" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_transcript">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="transcript" />
-        </InArgument>
-        <InArgument x:TypeArguments="s:DateTime" x:Key="in_startTime">
-          <VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="startTime" />
-        </InArgument>
-        <InArgument x:TypeArguments="s:DateTime" x:Key="in_endTime">
-          <VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="endTime" />
-        </InArgument>
+        <InArgument x:TypeArguments="ui:DatabaseConnection" x:Key="in_databaseConnection">[in_databaseConnection]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_transcript">[transcript]</InArgument>
+        <InArgument x:TypeArguments="s:DateTime" x:Key="in_startTime">[startTime]</InArgument>
+        <InArgument x:TypeArguments="s:DateTime" x:Key="in_endTime">[endTime]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
   </Sequence>

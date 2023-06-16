@@ -29,6 +29,11 @@
             "Value": "/api/v1/files/transcribe/file"
         },
         {
+            "Name": "getTransacriptionEndPoint",
+            "Value": "/api/v1/transcripts/{0}/transcribe"
+
+        },
+        {
             "Name": "clientSecret",
             "Value": "Azure_ClientSecret"
         }
